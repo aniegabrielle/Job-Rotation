@@ -1,0 +1,121 @@
+"""2.Primeiramente, o programa solicita que o usuário digite um número. Em seguida, ele inicia a sequência de Fibonacci
+com os valores iniciais 0 e 1 e verifica se o número digitado pelo usuário é menor ou igual ao valor atual da sequência.
+Se o número estiver na sequência, ele imprime uma mensagem informando que o número pertence à sequência e encerra o loop.
+Caso contrário, ele continua a calcular os valores da sequência até que o valor atual ultrapasse
+ o número digitado pelo usuário, momento em que o programa imprime uma mensagem informando que o número não pertence à sequência."""
+
+numero = int(input("Digite um número: "))
+
+# Inicializando as variáveis que armazenarão os valores da sequência
+fibonacci_atual = 0
+fibonacci_proximo = 1
+
+# Verificando se o número está na sequência de Fibonacci
+while fibonacci_atual <= numero:
+    if fibonacci_atual == numero:
+        print("O número", numero, "pertence à sequência de Fibonacci.")
+        break
+    fibonacci_atual, fibonacci_proximo = fibonacci_proximo, fibonacci_atual + fibonacci_proximo
+else:
+    print("O número", numero, "não pertence à sequência de Fibonacci.")
+
+
+###########################################################################################################################
+
+
+"""3.O programa lê os dados do faturamento mensal a partir do JSON fornecido, 
+e em seguida utiliza um loop para calcular o menor e o maior valor de faturamento diário, 
+assim como o faturamento total e o número de dias com faturamento. A partir desses valores, 
+o programa calcula a média mensal de faturamento, excluindo os dias sem faturamento, 
+e em seguida utiliza outro loop para contar o número de dias em que o faturamento diário foi superior à média mensal. 
+Finalmente, o programa imprime os resultados obtidos."""
+
+import json
+
+# Lendo os dados do faturamento mensal a partir do JSON fornecido
+with open('faturamento_mensal.json', 'r') as f:
+    faturamento_mensal = json.load(f)
+
+# Inicializando as variáveis para cálculo do menor e maior valor de faturamento
+menor_faturamento = float('inf')
+maior_faturamento = float('-inf')
+
+# Calculando a média mensal de faturamento (excluindo dias sem faturamento)
+faturamento_total = 0
+dias_com_faturamento = 0
+for dia in faturamento_mensal:
+    valor = dia['valor']
+    if valor > 0:
+        faturamento_total += valor
+        dias_com_faturamento += 1
+        if valor < menor_faturamento:
+            menor_faturamento = valor
+        if valor > maior_faturamento:
+            maior_faturamento = valor
+
+media_mensal = faturamento_total / dias_com_faturamento
+
+# Calculando o número de dias em que o faturamento diário foi superior à média mensal
+dias_com_faturamento_acima_media = 0
+for dia in faturamento_mensal:
+    if dia['valor'] > media_mensal:
+        dias_com_faturamento_acima_media += 1
+
+# Imprimindo os resultados
+print("Menor faturamento diário: R$ {:.2f}".format(menor_faturamento))
+print("Maior faturamento diário: R$ {:.2f}".format(maior_faturamento))
+print("Número de dias com faturamento acima da média mensal: {}".format(dias_com_faturamento_acima_media))
+
+
+###########################################################################################################################
+
+
+"""Definir uma variável para armazenar o valor total mensal da distribuidora, somando os valores de faturamento de cada estado.
+Definir um dicionário para armazenar os valores de faturamento de cada estado.
+Calcular o percentual de representação de cada estado, dividindo seu valor de faturamento pelo valor total mensal da distribuidora e multiplicando por 100.
+Imprimir os percentuais de representação de cada estado."""
+
+faturamento = {
+    'SP': 67836.43,
+    'RJ': 36678.66,
+    'MG': 29229.88,
+    'ES': 27165.48,
+    'Outros': 19849.53
+}
+
+total = sum(faturamento.values())
+
+for estado, valor in faturamento.items():
+    percentual = (valor / total) * 100
+    print(f'{estado}: {percentual:.2f}%')
+
+"""SP: 42.71%
+RJ: 23.14%
+MG: 18.47%
+ES: 17.14%
+Outros: 12.54%
+Isso significa que São Paulo teve a maior representatividade no faturamento total da distribuidora, 
+seguido pelo Rio de Janeiro, Minas Gerais, Espírito Santo e outros estados."""
+
+
+###########################################################################################################################
+
+
+"""4. Explicando o código, a linha input("Digite uma string: ") solicita ao usuário que digite uma string. 
+Em seguida, o laço for percorre a string de trás para frente, começando na posição len(string) - 1 (a última posição da string) 
+e indo até a posição 0. A cada iteração do laço, o caractere da posição atual é adicionado na lista inverted_chars. Depois, 
+os caracteres da lista são juntados em uma nova string utilizando o método join, que recebe a lista como argumento e 
+retorna uma string formada pelos elementos da lista separados pelo separador especificado (no caso, uma string vazia '')."""
+
+string = input("Digite uma string: ") # entrada da string a ser invertida
+
+inverted_chars = []
+for i in range(len(string) - 1, -1, -1):
+    inverted_chars.append(string[i])
+
+inverted_string = ''.join(inverted_chars)
+
+print(f'String original: {string}')
+print(f'String invertida: {inverted_string}')
+
+###########################################################################################################################
